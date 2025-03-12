@@ -3,7 +3,7 @@ import { onMounted } from 'vue';
 import Header from '../Header.vue';
 import { RecycleScroller } from 'vue-virtual-scroller';
 
-const items = [...Array(1000000).keys()].map((i) => {
+const items = [...Array(1_000_000).keys()].map((i) => {
     return {
         id: i + 1,
         checked: false
@@ -16,17 +16,16 @@ onMounted(() => {
 </script>
 
 <template>
-    <div>
-        <Header />
-        <RecycleScroller 
-            class="scroller" 
-            :items="items" 
-            :item-size="30" 
-            key-field="id" 
-            :renderers="1000" 
+    <Header/>
+    <div class="bg-orange-300 p-2 h-10/12">
+        <RecycleScroller
+            class="scroller"
+            :items="items"
+            :item-size="30"
+            key-field="id"
             v-slot="{ item }">
             <div class="single-checkbox-wrapper">
-                {{ item.id }} - {{ item.checked }}
+                {{ item }}
             </div>
         </RecycleScroller>
     </div>
@@ -34,7 +33,7 @@ onMounted(() => {
 
 
 <style scoped>
-.scroller {
-  height: 100%;
-}
+    .scroller {
+      height: 100%;
+    }
 </style>
