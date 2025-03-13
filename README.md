@@ -23,6 +23,9 @@ setbit state 10 1
 #get-bit
 getbit state 2
 getbit state
+
+# clean all bitmap data
+FLUSHALL
 ```
 
 
