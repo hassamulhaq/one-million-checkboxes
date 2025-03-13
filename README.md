@@ -28,5 +28,13 @@ getbit state
 FLUSHALL
 ```
 
+### preview
+![_preview_01.webp](public/_preview_01.webp)
+
+web sockets
+![_preview_02.webp](public/_preview_02.webp)
+
+#### video
+![_preview-03.gif](public/_preview-03.gif)
 
 
