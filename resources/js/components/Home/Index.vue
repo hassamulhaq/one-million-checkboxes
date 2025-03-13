@@ -60,7 +60,6 @@ const resizeRecycleScroller = () => {
     gridItems.value = Math.floor(width.value / itemSize.value);
     console.log(gridItems.value)
 }
-resizeRecycleScroller();
 
 const navigateToCheckbox = () => {
     scroller.value.scrollToItem(goToCheckboxval.value || 1);
