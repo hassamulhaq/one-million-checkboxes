@@ -16,6 +16,7 @@ const gridItems = ref(32);
 const itemSize = ref(1216.02 / gridItems.value);
 const recycleKey = ref(Date.now());
 const checkedCount = ref(props.count);
+const goToCheckboxval = ref(null);
 
 const stateLength = props.state.length || 0;
 for (let i = 0; i < stateLength; i++) {
@@ -60,12 +61,29 @@ const resizeRecycleScroller = () => {
     console.log(gridItems.value)
 }
 
+const navigateToCheckbox = () => {
+    scroller.value.scrollToItem(goToCheckboxval.value || 1);
+}
+
 </script>
 
 <template>
     <Header/>
-    <div class="flex flex-1 justify-end">
-        <span style="line-height: 16px;">count: {{ checkedCount }}</span>
+    <div class="flex flex-1 justify-around md:justify-end items-center">
+        <div class="mr-1 md:mr-4 py-1 px-1 bg-amber-200" style="line-height: 16px;">count: {{ checkedCount }}</div>
+        <div class="flex gap-1 bg-amber-200 py-1 px-2">
+            <div class="flex items-center">
+                <span class="pr-1">Go to:</span>
+                <form @submit.prevent="navigateToCheckbox">
+                    <input type="number"
+                           class="ring-1 ring-amber-700 rounded-xs"
+                           min="0"
+                           max="1000000"
+                           maxlength="1000000" v-model="goToCheckboxval">
+                    <button type="submit" class="px-2 py-0.5 bg-amber-400 hover:bg-amber-500 cursor-pointer rounded-xs">Go</button>
+                </form>
+            </div>
+        </div>
     </div>
     <div class="bg-orange-300 p-2 shadow">
         <RecycleScroller
