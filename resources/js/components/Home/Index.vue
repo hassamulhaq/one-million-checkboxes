@@ -3,12 +3,14 @@ import {onMounted, ref} from 'vue';
 import Header from '../Header.vue';
 import { RecycleScroller } from 'vue-virtual-scroller';
 import BitSte from 'bitset';
+import { useElementBounding } from "@vueuse/core";
 
 const props = defineProps({
     state: String,
     count: Number
 });
 
+const scroller = ref(null);
 const bitset = new BitSte;
 const gridItems = ref(32);
 const itemSize = ref(1216.02 / gridItems.value);
@@ -48,18 +50,27 @@ const toggleCheckbox = (id, checked) => {
     changeState({id, checked});
 }
 
+const resizeRecycleScroller = () => {
+    const {width} = useElementBounding(scroller);
+
+    gridItems.value = Math.floor(width.value / itemSize.value);
+    console.log(gridItems.value)
+}
+
 </script>
 
 <template>
     <Header/>
     <div class="bg-orange-300 p-2 shadow">
         <RecycleScroller
+            ref="scroller"
             class="scroller w-full flex-grow overflow-y-auto overflow-x-auto min-h-10/12 max-h-[680px]"
             :items="items"
             :item-size="itemSize"
             key-field="id"
             v-slot="{ item }"
-            :grid-items="gridItems">
+            :grid-items="gridItems"
+            @resize="resizeRecycleScroller">
             <div class="single-checkbox-wrapper" :key="recycleKey">
                <input type="checkbox" :checked="item.checked" :data-id="item.id" class="size-6" @change="toggleCheckbox(item.id, $event.target.checked)">
             </div>
