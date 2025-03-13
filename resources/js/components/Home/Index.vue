@@ -15,6 +15,7 @@ const bitset = new BitSte;
 const gridItems = ref(32);
 const itemSize = ref(1216.02 / gridItems.value);
 const recycleKey = ref(Date.now());
+const checkedCount = ref(props.count);
 
 const stateLength = props.state.length || 0;
 for (let i = 0; i < stateLength; i++) {
@@ -32,6 +33,8 @@ const changeState = (attrObj) => {
     const {id, checked} = attrObj;
     items[id - 1].checked = checked;
     recycleKey.value = Date.now();
+
+    checkedCount.value += checked ? 1 : -1;
 }
 
 onMounted(() => {
@@ -61,6 +64,9 @@ const resizeRecycleScroller = () => {
 
 <template>
     <Header/>
+    <div class="flex flex-1 justify-end">
+        <span style="line-height: 16px;">count: {{ checkedCount }}</span>
+    </div>
     <div class="bg-orange-300 p-2 shadow">
         <RecycleScroller
             ref="scroller"
