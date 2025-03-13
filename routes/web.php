@@ -9,8 +9,6 @@ use Illuminate\Support\Facades\Route;
  */
 \Illuminate\Support\Facades\Auth::login(new \App\Models\User());
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', \App\Http\Controllers\HomeController::class);
 
 Route::get('/redis/bitmap/get', [RedisBitMapController::class, 'bitmap'])->name('bitmap');

@@ -2,17 +2,29 @@
 import {onMounted, ref} from 'vue';
 import Header from '../Header.vue';
 import { RecycleScroller } from 'vue-virtual-scroller';
+import BitSte from 'bitset';
+
+const props = defineProps({
+    state: String,
+    count: Number
+});
+
+const bitset = new BitSte;
+const gridItems = ref(32);
+const itemSize = ref(1216.02 / gridItems.value);
+const recycleKey = ref(Date.now());
+
+const stateLength = props.state.length || 0;
+for (let i = 0; i < stateLength; i++) {
+    bitset.set(i, Number(props.state.charAt(i)));
+}
 
 const items = [...Array(1_000_000).keys()].map((i) => {
     return {
         id: i + 1,
-        checked: false
+        checked: bitset.get(i + 1)
     }
 });
-
-const gridItems = ref(32);
-const itemSize = ref(1216.02 / gridItems.value);
-const recycleKey = ref(Date.now());
 
 const changeState = (attrObj) => {
     const {id, checked} = attrObj;
@@ -21,7 +33,8 @@ const changeState = (attrObj) => {
 }
 
 onMounted(() => {
-    console.log({ items });
+    console.log('props.state: ', JSON.stringify(props.state));
+    console.log('props.count: ', JSON.stringify(props.count));
 });
 
 const channelCheckboxes = Echo.private('checkboxes');

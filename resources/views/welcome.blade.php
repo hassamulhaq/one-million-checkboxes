@@ -50,7 +50,7 @@
             @endif
         </header>
 
-        <div id="app" class="max-w-7xl px-6 w-full mx-auto flex flex-col h-screen"></div>
+        <div id="app" class="max-w-7xl px-6 w-full mx-auto flex flex-col h-screen" data-props='@json($props)'></div>
 
         @if (Route::has('login'))
             <div class="h-14.5 hidden lg:block"></div>
