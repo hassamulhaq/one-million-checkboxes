@@ -59,10 +59,8 @@ const toggleCheckbox = (id, checked) => {
             :item-size="itemSize"
             key-field="id"
             v-slot="{ item }"
-            :grid-items="gridItems"
-            :key="recycleKey"
-        >
-            <div class="single-checkbox-wrapper">
+            :grid-items="gridItems">
+            <div class="single-checkbox-wrapper" :key="recycleKey">
                <input type="checkbox" :checked="item.checked" :data-id="item.id" class="size-6" @change="toggleCheckbox(item.id, $event.target.checked)">
             </div>
         </RecycleScroller>
