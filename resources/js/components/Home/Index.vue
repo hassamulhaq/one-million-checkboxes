@@ -14,19 +14,31 @@ const gridItems = ref(32);
 const itemSize = ref(1216.02 / gridItems.value);
 const recycleKey = ref(Date.now());
 
-const changeState = (id, isChecked) => {
-    items[id - 1].checked = isChecked;
+const changeState = (attrObj) => {
+    const {id, checked} = attrObj;
+    items[id - 1].checked = checked;
     recycleKey.value = Date.now();
 }
 
 onMounted(() => {
     console.log({ items });
 });
+
+const channelCheckboxes = Echo.private('checkboxes');
+
+channelCheckboxes.listenForWhisper('state', (e) => {
+    changeState({"id": e.id, "checked": e.checked});
+});
+
+const toggleCheckbox = (id, checked) => {
+    channelCheckboxes.whisper('state', {id, checked});
+    changeState({id, checked});
+}
+
 </script>
 
 <template>
     <Header/>
-    <button type="button" class="bg-amber-600 hover:bg-amber-700 p-0.5 w-[90px]" @click="changeState(1, true)">click 1st checked</button>
     <div class="bg-orange-300 p-2 shadow">
         <RecycleScroller
             class="scroller w-full flex-grow overflow-y-auto overflow-x-auto min-h-10/12 max-h-[680px]"
@@ -38,7 +50,7 @@ onMounted(() => {
             :key="recycleKey"
         >
             <div class="single-checkbox-wrapper">
-               <input type="checkbox" :checked="item.checked" :data-id="item.id" class="size-6">
+               <input type="checkbox" :checked="item.checked" :data-id="item.id" class="size-6" @change="toggleCheckbox(item.id, $event.target.checked)">
             </div>
         </RecycleScroller>
     </div>
