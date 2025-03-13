@@ -2,6 +2,7 @@
 
 namespace App\Listeners;
 
+use App\Actions\Checkbox\CheckboxRedisBitmapUpdate;
 use Illuminate\Support\Facades\Log;
 use Laravel\Reverb\Events\MessageReceived;
 
@@ -23,7 +24,8 @@ class HandleCheckboxStateUpdateListener
 
         $data = $payload->data;
 
-
         Log::info(json_encode($data));
+
+        (new CheckboxRedisBitmapUpdate())->handle($data->id, $data->checked);
     }
 }

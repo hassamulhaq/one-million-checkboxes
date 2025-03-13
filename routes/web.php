@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\RedisBitMapController;
 use Illuminate\Support\Facades\Route;
 
 /**
@@ -11,3 +12,5 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/redis/bitmap/get', [RedisBitMapController::class, 'bitmap'])->name('bitmap');
